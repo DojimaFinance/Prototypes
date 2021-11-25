@@ -1,4 +1,4 @@
-# DSLA Submission
+# WAGMI Ohmptions
 Repo with option factory that can be used to create put / call options  
 
 Google Doc Explainer : https://docs.google.com/presentation/d/1D7ZbgSSUrRY4DzEahYiFbxBon_iup-8LlsyenOWjQlY/edit?usp=sharing
