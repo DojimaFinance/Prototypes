@@ -1,0 +1,36 @@
+brownie console
+
+#accounts.load("dev")
+token = Token.deploy("Stable1", "USDA", {"from": accounts[0]})
+base = Token.deploy("Stable2", "USDX", {"from": accounts[0]})
+base.mint(accounts[0], {"from": accounts[0]})
+token.mint(accounts[0], {"from": accounts[0]})
+
+
+saleContract = saleContract.deploy(250, {"from": accounts[0]})
+optFactory = optionFactory.deploy(saleContract, {"from": accounts[0]})
+
+token.approve(saleContract.address, 100000000e18)
+base.approve(optFactory.address, 100000000e18)
+
+token.approve(saleContract.address, 100000000e18)
+
+collatAmt = 100000
+debtAmt = 100000
+minExcercise = 10
+optionSalePrice = 1000
+saleTime = 345600
+expirytime = 2592000
+timeBeforeDeadline = 2591999
+
+optFactory.createOption(base, token, collatAmt, debtAmt, minExcercise, optionSalePrice, saleTime, expirytime, timeBeforeDeadline)
+
+base.approve(saleContract.address, 100000000e18)
+saleContract.purchaseTokens(1, 9000)
+optAddress = optFactory.getOptionsAddress(1)
+optVault = optionVaultSimple.at(optAddress)
+buyAddress = optVault.buyerAddress()
+
+buyerOption = buyerERC20.at(buyAddress)
+token.approve(buyerOption, 10000000)
+buyerOption.excerciseAll({"from": accounts[0]})
