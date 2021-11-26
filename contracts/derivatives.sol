@@ -105,12 +105,12 @@ contract option is ReentrancyGuard, Ownable {
             vault(vaultAddress).deposit(collatAmt);
         }
     }
-
+    
     function withdrawAmount(uint256 _amount) internal {
         uint256 withdrawAmt = _amount.mul(vaultDecimalAdj).div(vault(vaultAddress).pricePerShare());
-        vault(vaultAddress).withdraw(withdrawAmt);
+        vault(vaultAddress).withdraw(); /// to do fix 
     }
-
+    
     function vaultBalance() internal view returns(uint256) {
         uint256 bal = vault(vaultAddress).balanceOf(address(this));
         return(bal);
@@ -123,7 +123,7 @@ contract option is ReentrancyGuard, Ownable {
         require(block.timestamp <= deadline);
         debtToken.transferFrom(msg.sender, address(seller), amtOwed);
         if (useVault == true){
-            vault(vaultAddress).withdraw(vaultBalance());
+            vault(vaultAddress).withdraw();
         }
         collateralToken.transferFrom(address(this), address(buyer), collatAmt);
         isRepaid = true;

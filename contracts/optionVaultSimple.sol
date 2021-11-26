@@ -96,7 +96,7 @@ contract optionVaultSimple is Ownable {
     function withdrawAmount(uint256 _amount) internal {
         uint256 vaultBPS = 1000000000000000000; /// TO DO UPDATE THIS TO READ FROM VAULT 
         uint256 withdrawAmt = _amount.mul(vaultBPS).div(vault(vaultAddress).pricePerShare());
-        vault(vaultAddress).withdraw(withdrawAmt);
+        vault(vaultAddress).withdraw();
     }
 
     // Adjust timing of options (time to deposit collateral & expiry time from when collateral is deposited)
@@ -169,7 +169,7 @@ contract optionVaultSimple is Ownable {
     }
 
     function withdrawFromVault() external onlyOwner {
-        vault(vaultAddress).withdrawAll();
+        vault(vaultAddress).withdraw();
     }
 
     // Issue new options with collateral held in Vault 
@@ -195,7 +195,7 @@ contract optionVaultSimple is Ownable {
         require(block.timestamp <= deadline);
         short.transferFrom(msg.sender, address(this), amtOwed);
         if (useVault == true){
-            vault(vaultAddress).withdraw(vaultBalance());
+            vault(vaultAddress).withdraw();
         }
         base.transferFrom(address(this), address(buyer), collatAmt);
         //isRepaid = true;
@@ -210,10 +210,15 @@ contract optionVaultSimple is Ownable {
         uint256 percentRepaid = _amt.mul(BPS_adj).div(amtOwed);
         uint256 redeemAmt = collatAmt.mul(percentRepaid).div(BPS_adj);
         if (useVault == true){
-            vault(vaultAddress).withdraw(vaultBalance());
+            vault(vaultAddress).withdraw();
         }
         base.transfer(_recipient, redeemAmt);
         //short.transferFrom(msg.sender, address(this), _amt);
+
+        if (useVault == true){
+            uint256 bal = base.balanceOf(address(this));
+            vault(vaultAddress).deposit(bal);
+        }
         amtOwed = amtOwed.sub(_amt);
         collatAmt = collatAmt.sub(redeemAmt);
         return(redeemAmt);
