@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-# WAGMI Submission 
-=======
-# WAGMI Ohmptions
+# WAGMI Submission - Ohmptions
 >>>>>>> a85e937b9872d97719939a0dc4ce2f5383630c0d
 Repo with option factory that can be used to create put / call options  
 
@@ -23,7 +20,7 @@ For example if bonds of Token X were being issued at $1000 / bond & the protocol
 Sales Contract (SaleContract.sol)
 - Options create through the option factory are sold through here allowing users to purchase ERC20 tokens which give them the right to excercise options. The price options are sold at is specified in the option factory when creating the intial option and locking away the funds in escrow 
 
-Example Script (can be run on eth fork)
+Example Script : https://github.com/DojimaFinance/Wagmi-Labs-Hackathon/blob/master/exampleScript.txt
 
 Testnet Deployments : 
 
