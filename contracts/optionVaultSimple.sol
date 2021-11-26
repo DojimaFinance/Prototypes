@@ -148,7 +148,7 @@ contract optionVaultSimple is Ownable {
         optionsIssued = true;
         collateralProvided = true;
         buyerToken.approve(salesContract, _amtOwed);
-        launchSale(buyerAddress, address(short), buyerToken.totalSupply(),  _amtRaised, 0, buyerToken.totalSupply(), _saleTime);
+        launchSale(buyerAddress, address(base), buyerToken.totalSupply(),  _amtRaised, 0, buyerToken.totalSupply(), _saleTime);
         
 
     }
