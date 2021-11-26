@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # WAGMI Submission 
+=======
+# WAGMI Ohmptions
+>>>>>>> a85e937b9872d97719939a0dc4ce2f5383630c0d
 Repo with option factory that can be used to create put / call options  
 
 Google Doc Explainer : https://docs.google.com/presentation/d/1D7ZbgSSUrRY4DzEahYiFbxBon_iup-8LlsyenOWjQlY/edit?usp=sharing
