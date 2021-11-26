@@ -5,7 +5,7 @@ interface vault {
     function deposit(uint256 amount) external;
     function withdraw(uint256 amount) external; 
     function withdrawAll() external; 
-    function getPricePerShare() external view returns (uint256);  
+    function pricePerShare() external view returns (uint256);  
     function balanceOf(address _address) external view returns (uint256);
     function want() external view returns(address);
 }

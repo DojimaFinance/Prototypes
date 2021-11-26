@@ -1,6 +1,5 @@
-brownie console
-
-#accounts.load("dev")
+#following can be run in terminal 
+brownie console 
 
 ohm = interface.ERC20('0x383518188C0C6d7730D91b2c03a03C837814a899')
 dai = interface.ERC20('0x6B175474E89094C44Da98b954EedeAC495271d0F')
@@ -13,14 +12,14 @@ decimalAdj = 10000000
 daiWhale = '0xC2C5A77d9f434F424Df3d39de9e90d95A0Df5Aca'
 ohmWhale = '0xBc43F1A9ae34ccA4C1BD6de354d8D6b452a95540'
 
-underwriter = accounts[0]
+underwriter = accounts[0] #this would be OHM treasury which would allocate % of treasury to put options
 optionHolder = accounts[1]
 
 putDiscount = 0.9 #how much holder of option can sell OHM for vs bond price 
 premium = 0.01 #cost to insure 1 OHM for X % of bond price 
 
-saleContract = saleContract.deploy(250, {"from": underwriter})
-optFactory = optionFactory.deploy(saleContract, {"from": underwriter})
+sales = saleContract.deploy(250, {"from": underwriter})
+optFactory = optionFactory.deploy(sales, {"from": underwriter})
 
 ohmInsured = 1000000
 
@@ -32,7 +31,7 @@ dai.transfer(underwriter, collatAmt, {'from' : daiWhale})
 dai.transfer(optionHolder, optionSalePrice, {'from' : daiWhale})
 ohm.transfer(optionHolder, ohmInsured, {'from' : ohmWhale})
 
-dai.approve(saleContract.address, optionSalePrice , {"from": optionHolder})
+dai.approve(sales.address, optionSalePrice , {"from": optionHolder})
 dai.approve(optFactory.address, collatAmt, {"from": underwriter})
 
 
@@ -41,10 +40,14 @@ expirytime = 2592000
 timeBeforeDeadline = 2591999
 
 optFactory.createOption(dai, ohm, collatAmt, ohmInsured, minExcercise, optionSalePrice, saleTime, expirytime, timeBeforeDeadline, {"from": underwriter})
-
-saleContract.purchaseTokens(1, ohmInsured,{"from": optionHolder})
 optAddress = optFactory.getOptionsAddress(1)
 optVault = optionVaultSimple.at(optAddress)
+yvDAI = '0xdA816459F1AB5631232FE5e97a05BBBb94970c95'
+#optVault.setVaultUsage(yvDAI, True, {"from": underwriter})
+#optVault.depositToVault({"from": underwriter})
+
+
+sales.purchaseTokens(1, ohmInsured,{"from": optionHolder})
 buyAddress = optVault.buyerAddress()
 
 buyerOption = buyerERC20.at(buyAddress)

@@ -94,8 +94,8 @@ contract optionVaultSimple is Ownable {
 
     /// withdraws base token from vault -> used when option excercised 
     function withdrawAmount(uint256 _amount) internal {
-        uint256 vaultBPS = 1000; /// TO DO UPDATE THIS TO READ FROM VAULT 
-        uint256 withdrawAmt = _amount.mul(vaultBPS).div(vault(vaultAddress).getPricePerShare());
+        uint256 vaultBPS = 1000000000000000000; /// TO DO UPDATE THIS TO READ FROM VAULT 
+        uint256 withdrawAmt = _amount.mul(vaultBPS).div(vault(vaultAddress).pricePerShare());
         vault(vaultAddress).withdraw(withdrawAmt);
     }
 
@@ -111,8 +111,8 @@ contract optionVaultSimple is Ownable {
         uint256 bal = base.balanceOf(address(this));
         if (useVault == true ){
             IERC20 vaultToken = IERC20(vaultAddress);
-            uint256 vaultBPS = 10000; /// TO DO UPDATE THIS TO READ FROM VAULT 
-            uint256 vaultBalance = vaultToken.balanceOf(address(this)).mul(vault(vaultAddress).getPricePerShare()).div(vaultBPS);
+            uint256 vaultBPS = 1000000000000000000; /// TO DO UPDATE THIS TO READ FROM VAULT 
+            uint256 vaultBalance = vaultToken.balanceOf(address(this)).mul(vault(vaultAddress).pricePerShare()).div(vaultBPS);
 
             bal = bal.add(vaultBalance);
         }
@@ -210,7 +210,7 @@ contract optionVaultSimple is Ownable {
         uint256 percentRepaid = _amt.mul(BPS_adj).div(amtOwed);
         uint256 redeemAmt = collatAmt.mul(percentRepaid).div(BPS_adj);
         if (useVault == true){
-            withdrawAmount(_amt);
+            vault(vaultAddress).withdraw(vaultBalance());
         }
         base.transfer(_recipient, redeemAmt);
         //short.transferFrom(msg.sender, address(this), _amt);

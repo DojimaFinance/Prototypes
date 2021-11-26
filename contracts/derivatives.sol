@@ -107,7 +107,7 @@ contract option is ReentrancyGuard, Ownable {
     }
 
     function withdrawAmount(uint256 _amount) internal {
-        uint256 withdrawAmt = _amount.mul(vaultDecimalAdj).div(vault(vaultAddress).getPricePerShare());
+        uint256 withdrawAmt = _amount.mul(vaultDecimalAdj).div(vault(vaultAddress).pricePerShare());
         vault(vaultAddress).withdraw(withdrawAmt);
     }
 
