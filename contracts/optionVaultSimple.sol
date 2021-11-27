@@ -76,8 +76,6 @@ contract optionVaultSimple is Ownable {
         salesContract = _salesContract;
         expiryTime = _expiryTime;
         timeBeforeDeadline = _timeBeforeDeadline;
-
-        
     }
 
     // set pricing paramaters for options 
