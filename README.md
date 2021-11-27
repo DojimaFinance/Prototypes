@@ -20,7 +20,10 @@ For example if bonds of Token X were being issued at $1000 / bond & the protocol
 Sales Contract (SaleContract.sol)
 - Options create through the option factory are sold through here allowing users to purchase ERC20 tokens which give them the right to excercise options. The price options are sold at is specified in the option factory when creating the intial option and locking away the funds in escrow 
 
-Example Script : https://github.com/DojimaFinance/Wagmi-Labs-Hackathon/blob/master/exampleScript.txt
+Example Script for Put Options (allow option holders to sell back OHM to treasury / at some discount vs bonding price acts as insurnace if there is bank run): https://github.com/DojimaFinance/Wagmi-Labs-Hackathon/blob/master/putOption.txt
+
+Example Script for Call Options (user can purchase options to buy OHM at bond price up to expiry of bond) 
+: https://github.com/DojimaFinance/Wagmi-Labs-Hackathon/blob/master/callOption.txt
 
 Testnet Deployments : 
 Option Factory (used to create options such as above put otions) : 
