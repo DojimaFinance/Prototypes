@@ -1,0 +1,56 @@
+#following can be run in terminal 
+brownie console 
+
+ohm = interface.ERC20('0x383518188C0C6d7730D91b2c03a03C837814a899')
+dai = interface.ERC20('0x6B175474E89094C44Da98b954EedeAC495271d0F')
+
+lp = '0x34d7d7Aaf50AD4944B70B320aCB24C95fa2def7c'
+
+bondPrice = 90429
+decimalAdj = 10000000 
+
+daiWhale = '0xC2C5A77d9f434F424Df3d39de9e90d95A0Df5Aca'
+ohmWhale = '0xFd31c7d00Ca47653c6Ce64Af53c1571f9C36566a'
+
+underwriter = accounts[0] #this would be OHM treasury which would allocate % of treasury to put options
+optionHolder = accounts[1]
+
+strikePriceRatio = 1 #
+premium = 0.1 #cost to purchase call option for 1 OHM for X % of bond price 
+
+sales = saleContract.deploy(250, {"from": underwriter})
+optFactory = optionFactory.deploy(sales, {"from": underwriter})
+
+ohmOffered = 1000000
+
+purchaseAmount = int(ohmOffered*bondPrice*decimalAdj*strikePriceRatio)
+optionSalePrice = ohmOffered*premium
+minExcercise = 10000
+
+ohm.transfer(underwriter, ohmOffered, {'from' : ohmWhale})
+dai.transfer(optionHolder, purchaseAmount, {'from' : daiWhale})
+ohm.transfer(optionHolder, optionSalePrice, {'from' : ohmWhale})
+
+ohm.approve(sales.address, optionSalePrice , {"from": optionHolder})
+ohm.approve(optFactory.address, ohmOffered, {"from": underwriter})
+
+
+saleTime = 345600
+expirytime = 2592000
+timeBeforeDeadline = 2591999
+
+optFactory.createOption(ohm, dai, ohmOffered, purchaseAmount ,minExcercise, optionSalePrice, saleTime, expirytime, timeBeforeDeadline, {"from": underwriter})
+optAddress = optFactory.getOptionsAddress(1)
+optVault = optionVaultSimple.at(optAddress)
+yvDAI = '0xdA816459F1AB5631232FE5e97a05BBBb94970c95'
+#optVault.setVaultUsage(yvDAI, True, {"from": underwriter})
+#optVault.depositToVault({"from": underwriter})
+
+optionsPurchased = purchaseAmount / 10
+sales.purchaseTokens(1, optionsPurchased,{"from": optionHolder})
+buyAddress = optVault.buyerAddress()
+
+
+buyerOption = buyerERC20.at(buyAddress)
+dai.approve(buyerOption, optionsPurchased , {"from": optionHolder})
+buyerOption.excerciseAll({"from": optionHolder})
