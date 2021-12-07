@@ -53,4 +53,5 @@ buyAddress = optVault.buyerAddress()
 
 buyerOption = buyerERC20.at(buyAddress)
 dai.approve(buyerOption, optionsPurchased , {"from": optionHolder})
+
 buyerOption.excerciseAll({"from": optionHolder})

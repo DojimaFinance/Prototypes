@@ -2,12 +2,19 @@
 pragma solidity 0.6.12;
 pragma experimental ABIEncoderV2;
 
-import './derivatives.sol';
 import './derivativePool.sol';
-//import './optionFactory.sol';
-//import './screampriceoracle.sol';
+import {
+    SafeERC20,
+    SafeMath,
+    IERC20,
+    Address
+} from "@openzeppelin/contracts/token/ERC20/SafeERC20.sol";
+import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import {Math} from "@openzeppelin/contracts/math/Math.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
-
+import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
+import "../interfaces/uniswap.sol";
+import "../interfaces/vaults.sol";
 
 interface saleInterface {
     function newSale(
@@ -33,6 +40,7 @@ contract optionVaultSimple is Ownable {
     using Address for address;
     using SafeMath for uint256;
 
+    
     IERC20 public base;
     IERC20 public short;
     bool public collateralProvided;
