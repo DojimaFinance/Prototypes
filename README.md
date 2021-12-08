@@ -4,14 +4,12 @@ Repo with option factory that can be used to create put / call options
 
 Google Doc Explainer : https://docs.google.com/presentation/d/1D7ZbgSSUrRY4DzEahYiFbxBon_iup-8LlsyenOWjQlY/edit?usp=sharing
 
-Video Explainer : xxx
-
 Main Contracts 
 
 Option Factory (optionFactory.sol)
 - This allows users to create call / put options with desired strike price + amount of collateral lock 
 - creates contract following "OptionVaultSimple.sol" pattern -> this has collateral locked in escrow as needed if options are executed + can also allocated lock funds to a vault to earn yield
-- mints buyerERC20.sol tokens (in derivatesPool.sol file) which are sold through sales contract (SaleContract.sol) holders of these tokens can exercise options
+- mints buyerERC20.sol tokens (in derivatesPool.sol file) which are sold through sales contract (SaleContract.sol) holders of these tokens can exercise options relative to the amount they hold 
 - by entering correct inputs DSLA's covering various risks can be created 
 For example if bonds of Token X were being issued at $1000 / bond & the protocol wanted to provide users with the ability to hedge their lossess over the bonding period an option could be created allowing for one Token X to be sold for $900 each. This would mean that holders of these options retain upside potential if the price of TOken X increases while limiting their downside risk.   
 - Additionally to solve the problem of capital efficiency the contract which holds these funds in Escrow can deploy them to a vault, 
