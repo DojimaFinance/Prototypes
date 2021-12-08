@@ -23,7 +23,17 @@ Example Script for Put Options (allow option holders to sell back OHM to treasur
 Example Script for Call Options (user can purchase options to buy OHM at bond price up to expiry of bond) 
 : https://github.com/DojimaFinance/Wagmi-Labs-Hackathon/blob/master/callOption.txt
 
-Testnet Deployments : 
-Option Factory (used to create options such as above put otions) : 
+Additional Contracts include 
+lendFactory.sol & lendFactoryNFT.sol which allow users to offer some collateral & terms for a loan i.e. asset to borrow & repayment timeline. The lending contracts used act as p2p loans with similiar mechanics to mortgages.
+
+Testnet Deployments (from previous iteration won't 100% align with current repo) : 
+
+Sale contract : https://testnet.ftmscan.com/address/0x76a84ff11af41ba1cbe0c738e21731835bf38f9b#code
+
+Option Factory : 
 https://testnet.ftmscan.com/address/0x7517D47769156295622fb4bD5516f73b4569449D#code
+
+Loan Factory : 
+https://testnet.ftmscan.com/address/0xafd9979E839ca365df18EA31a02ef4060cB39914#code
+
 
